@@ -30,6 +30,7 @@ urlpatterns = [
     path(r'credits/', include('credits.urls', namespace='credits')),
     path(r'calls/', include('calls.urls', namespace='calls')),
     path(r'supports/', include('supports.urls', namespace='supports')),
+    path(r'users/', include('users.urls', namespace='users')),
 ]
 
 if settings.DEBUG:
