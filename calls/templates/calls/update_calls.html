@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}
+    Modifier callss
+{% endblock %}
+{% block content %}
+    <h2>Update calls</h2>
+    {% for call in calls_list %}
+    <a class="btn btn-primary" href="{% url 'calls:update_call' call_id=call.id %}" role="button">{{ call.title }}</a>      
+    {% endfor %}
+{% endblock content %}

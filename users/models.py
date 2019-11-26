@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class BaseModel(models.Model):
-    created       = models.DateTimeField(auto_now_add = True, verbose_name="Date de création")
+    created       = models.DateTimeField(auto_now_add = True, verbose_name="Date de création")
     modified      = models.DateTimeField(auto_now = True, verbose_name="Date de modification")
 
     class Meta:
@@ -15,21 +15,20 @@ class UserProfile(AbstractUser, BaseModel):
     USER_TYPE_CHOICES = (
         (1, 'teammember'),
         (2, 'client'),
-        )
+    )
 
     user_type = models.PositiveSmallIntegerField(
         choices=USER_TYPE_CHOICES,
         default=None,
         blank=True,
-        null=True,
-        )
+        null=True, )
 
-    display_name = models.TextField(
+    display_name = models.CharField(
         verbose_name="Nom d'affichage",
+        max_length = 100,
         default=None,
         blank=True,
-        null=True,
-        )
+        null=True, )
 
     newsletter_agreement = models.BooleanField(
         verbose_name = "Recevoir des newsletter",
@@ -43,12 +42,12 @@ class UserProfile(AbstractUser, BaseModel):
             return self.display_name
         else:
             return self.username
-
-    class Meta:
-        verbose_name = "Utilisateur"
-        verbose_name_plural = "Utilisateurs"
-        ordering = ("created", )
-
+    
+    def is_teammember(self):       
+        if self.user_type == 1:
+            return True
+        else:  
+            return False
 
 class TeamMember(BaseModel):
 
@@ -63,7 +62,7 @@ class TeamMember(BaseModel):
         )
 
     def __str__(self):
-        return "%s (support_level : %d)" % (str(self.teammember), self.support_level)
+        return "TeamMember : %s" % str(self.teammember)
 
 
 class Customer(BaseModel):
@@ -79,4 +78,5 @@ class Customer(BaseModel):
         )
 
     def __str__(self):
-        return "%s (credits : %d)" % (str(self.customer), self.credits)
+        return "Customer : %s" % str(self.customer)
+
