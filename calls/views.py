@@ -3,13 +3,18 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-from .forms import NewCallForm, ModifyCallForm
+from .forms import NewCallForm, ModifyCallForm, CustomerCallForm
 from .models import Call
 
 def is_teammember(user=None):
     if not user or user.is_anonymous:
         return False
     return user.user_type == 1
+
+def is_customer(user=None):    
+    if user == None:
+        return false   
+    return user.is_customer
 
 @user_passes_test(is_teammember)
 def new_call(request):
@@ -58,3 +63,23 @@ def update_call(request, call_id):
             'form': form,
         }
     )  
+
+@user_passes_test(is_customer)
+def customer_new_call(request):
+    if request.method == 'POST':
+        form = CustomerCallForm(request.POST)
+        print('tets form ::::::')
+        print(form.is_valid())
+        if form.is_valid():            
+            form.save()
+
+    else:
+        form = CustomerCallForm()
+    return render(
+        request,
+        'utils/form.html',
+        {
+            'title': "Nouvel Appel",
+            'form':form,
+        }
+    )
