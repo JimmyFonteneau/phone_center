@@ -36,3 +36,14 @@ class CustomerCallForm(ModelFormWithSubmit):
     class Meta:
         model = Call
         fields = ('title', 'tags', 'content', )
+
+class CustomerModifyCallForm(ModelFormWithSubmit):
+
+    tags = forms.ModelMultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple,
+        queryset=CallTag.objects.all(),
+        )
+
+    class Meta:
+        model = Call
+        fields = ('title','tags', 'content', )

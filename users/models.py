@@ -44,19 +44,10 @@ class UserProfile(AbstractUser, BaseModel):
             return self.username
     
     def is_teammember(self):       
-        if self.user_type == 1:
-            return True
-        else:  
-            return False
+        return self.user_type == 1         
     
-    def is_customer(self):               
-        print('iscuuzebfiezbfezibfez')
-        print(self)
-        print(self.user_type)
-        if self.user_type == 2:
-            return True
-        else:  
-            return False
+    def is_customer(self):                      
+        return self.user_type == 2       
 
 class TeamMember(BaseModel):
 
