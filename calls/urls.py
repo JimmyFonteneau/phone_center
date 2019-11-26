@@ -16,4 +16,6 @@ urlpatterns = [
 
     path('update-unresolve-call-<int:call_id>/', views.customer_update_unresolve_call, name="customer_update_unresolve_call"),
     path('update-resolved-call-<int:call_id>/', views.customer_update_resolved_call, name="customer_update_resolved_call"),
+
+    path('calls-under-six/', views.calls_under_six, name="calls_under_six"),
 ]

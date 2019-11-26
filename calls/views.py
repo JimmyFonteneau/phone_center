@@ -17,6 +17,11 @@ def is_customer(user=None):
         return false   
     return user.is_customer
 
+def is_superuser(user=None):    
+    if user == None:
+        return false   
+    return user.is_superuser
+
 # Methods pour les teammember
 
 @user_passes_test(is_teammember)
@@ -150,5 +155,19 @@ def customer_update_resolved_call(request, call_id):
         {
             'title': 'Modifier l\'appel',
             'form': form,
+        }
+    )
+
+
+# super user Calls inférieur à 6 
+
+@user_passes_test(is_superuser)
+def calls_under_six(request):          
+    calls = Call.objects.filter(note__lte = 6)        
+    return render(
+        request,
+        'calls/under_six.html',
+        {
+            'calls_list': calls
         }
     )
