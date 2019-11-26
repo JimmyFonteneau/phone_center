@@ -3,6 +3,7 @@ from django import forms
 from users.forms import ModelFormWithSubmit
 from .models import Call, CallTag
 
+# Teammember or super user
 
 class NewCallForm(ModelFormWithSubmit):
 
@@ -26,6 +27,8 @@ class ModifyCallForm(ModelFormWithSubmit):
         model = Call
         fields = ('title', 'customer', 'tags', 'content', 'solved', )
 
+# Customer
+
 class CustomerCallForm(ModelFormWithSubmit):
 
     tags = forms.ModelMultipleChoiceField(
@@ -47,3 +50,8 @@ class CustomerModifyCallForm(ModelFormWithSubmit):
     class Meta:
         model = Call
         fields = ('title','tags', 'content', )
+
+class CustomerModifyCallFormSolved(ModelFormWithSubmit):
+    class Meta:
+        model = Call
+        fields = ('note', )

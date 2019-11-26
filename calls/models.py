@@ -80,6 +80,17 @@ class Call(BaseModel):
         db_index=True,
         )
 
+    note = models.PositiveSmallIntegerField(
+        verbose_name = "Qualité de l'appel",
+        default=None,
+        null=True,
+        blank=True,
+        validators=[
+            MaxValueValidator(10),
+            MinValueValidator(0),
+        ]
+        )
+
     def __str__(self):
         return self.title
 

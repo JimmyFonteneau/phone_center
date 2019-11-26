@@ -10,6 +10,10 @@ urlpatterns = [
     path('update-calls/', views.update_calls, name="update_calls"),
     path('update-call-<int:call_id>/', views.update_call, name="update_call"),
     path('customer-new-call/', views.customer_new_call, name="customer_new_call"),
-    path('customer-my-calls/', views.customer_my_calls, name="customer_my_calls"),
+      
+    path('customer-my-calls-unsolved/', views.customer_my_calls_unsolved, name="customer_my_calls_unsolved"),
+    path('customer-my-calls-solved/', views.customer_my_calls_solved, name="customer_my_calls_solved"),
+
     path('update-unresolve-call-<int:call_id>/', views.customer_update_unresolve_call, name="customer_update_unresolve_call"),
+    path('update-resolved-call-<int:call_id>/', views.customer_update_resolved_call, name="customer_update_resolved_call"),
 ]

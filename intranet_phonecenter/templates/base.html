@@ -61,7 +61,14 @@
         {% if request.user.is_customer %}
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="{% url 'calls:customer_my_calls' %}">Appels non résolus</a>
+              <a class="nav-link" href="{% url 'calls:customer_my_calls_unsolved' %}">Appels non résolus</a>
+            </li>
+          </ul>
+        {% endif %}
+        {% if request.user.is_customer %}
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'calls:customer_my_calls_solved' %}">Appels résolus</a>
             </li>
           </ul>
         {% endif %}

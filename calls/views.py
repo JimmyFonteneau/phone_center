@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect
 
-from .forms import NewCallForm, ModifyCallForm, CustomerCallForm, CustomerModifyCallForm
+from .forms import NewCallForm, ModifyCallForm, CustomerCallForm, CustomerModifyCallForm, CustomerModifyCallFormSolved
 from .models import Call
 
 def is_teammember(user=None):
@@ -16,6 +16,8 @@ def is_customer(user=None):
     if user == None:
         return false   
     return user.is_customer
+
+# Methods pour les teammember
 
 @user_passes_test(is_teammember)
 def new_call(request):
@@ -65,6 +67,8 @@ def update_call(request, call_id):
         }
     )  
 
+# créer un nouveau call
+
 @user_passes_test(is_customer)
 def customer_new_call(request):
     if request.method == 'POST':
@@ -85,11 +89,11 @@ def customer_new_call(request):
         }
     )
 
+# Méthodes liés aux calls unsolved
+
 @user_passes_test(is_customer)
-def customer_my_calls(request):
-    calls = Call.objects.filter(customer= request.user.id, solved= False)
-    print('zefijzeoifzeoifhzeofhzeohfez')
-    print(calls)
+def customer_my_calls_unsolved(request):          
+    calls = Call.objects.filter(customer= request.user.id, solved= False)        
     return render(
         request,
         'calls/customer_view_calls.html',
@@ -100,12 +104,12 @@ def customer_my_calls(request):
 
 @user_passes_test(is_customer)
 def customer_update_unresolve_call(request, call_id):
-    calls = call = Call.objects.get(id=call_id) 
+    call = Call.objects.get(id=call_id) 
     if request.method == 'POST':
         form = CustomerModifyCallForm(request.POST, instance=call)
         if form.is_valid():           
             form.save()
-            return HttpResponseRedirect(reverse("calls:customer_my_calls"))
+            return HttpResponseRedirect(reverse("calls:customer_my_calls_unsolved"))
     else:
         form = CustomerModifyCallForm(instance=call)
     return render(
@@ -116,3 +120,35 @@ def customer_update_unresolve_call(request, call_id):
             'form': form,
         }
     ) 
+
+# Méthodes liés aux calls solved
+
+@user_passes_test(is_customer)
+def customer_my_calls_solved(request):          
+    calls = Call.objects.filter(customer= request.user.id, solved= True)        
+    return render(
+        request,
+        'calls/customer_view_calls_solved.html',
+        {
+            'calls_list': calls
+        }
+    )
+
+@user_passes_test(is_customer)
+def customer_update_resolved_call(request, call_id):
+    call = Call.objects.get(id=call_id) 
+    if request.method == 'POST':
+        form = CustomerModifyCallFormSolved(request.POST, instance=call)
+        if form.is_valid():           
+            form.save()
+            return HttpResponseRedirect(reverse("calls:customer_my_calls_solved"))
+    else:
+        form = CustomerModifyCallFormSolved(instance=call)
+    return render(
+        request,
+        'utils/form.html',
+        {
+            'title': 'Modifier l\'appel',
+            'form': form,
+        }
+    )
