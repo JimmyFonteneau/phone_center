@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}
+    Calls sans teammeber associés
+{% endblock %}
+{% block content %}
+    <h2>Calls</h2>
+    {% for call in calls_list %}
+    <a class="btn btn-primary" href="{% url 'calls:update_teammember' call_id=call.id %}" role="button">{{ call.title }}</a>   
+    {% endfor %}
+{% endblock content %}

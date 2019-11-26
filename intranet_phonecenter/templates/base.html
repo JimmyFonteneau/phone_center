@@ -50,6 +50,11 @@
               <a class="nav-link" href="{% url 'calls:update_calls' %}">Mes appels</a>
             </li>
           </ul>
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'calls:calls_free' %}">Appels free</a>
+            </li>
+          </ul>
         {% endif %}
         {% if request.user.is_customer %}
           <ul class="navbar-nav mr-auto">

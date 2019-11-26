@@ -55,3 +55,8 @@ class CustomerModifyCallFormSolved(ModelFormWithSubmit):
     class Meta:
         model = Call
         fields = ('note', )
+
+class ModifyCallFormTeamMember(ModelFormWithSubmit):
+    class Meta:
+        model = Call
+        fields = ('teammember', )

@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect
 
-from .forms import NewCallForm, ModifyCallForm, CustomerCallForm, CustomerModifyCallForm, CustomerModifyCallFormSolved
+from .forms import NewCallForm, ModifyCallForm, CustomerCallForm, CustomerModifyCallForm, CustomerModifyCallFormSolved, ModifyCallFormTeamMember
 from .models import Call
 
 def is_teammember(user=None):
@@ -71,6 +71,36 @@ def update_call(request, call_id):
             'form': form,
         }
     )  
+
+@user_passes_test(is_teammember)
+def calls_free(request):      
+    calls = Call.objects.filter(teammember=None)
+    return render(
+        request,
+        'calls/calls_free.html',
+        {
+            'calls_list': calls,
+        }
+    )
+
+@user_passes_test(is_teammember)
+def update_teammember(request, call_id):      
+    call = Call.objects.get(id=call_id) 
+    if request.method == 'POST':
+        form = ModifyCallFormTeamMember(request.POST, instance=call)
+        if form.is_valid():           
+            form.save()
+            return HttpResponseRedirect(reverse("calls:calls_free"))
+    else:
+        form = ModifyCallFormTeamMember(instance=call)
+    return render(
+        request,
+        'utils/form.html',
+        {
+            'title': 'Modifier l\'appel',
+            'form': form,
+        }
+    )
 
 # créer un nouveau call
 

@@ -18,4 +18,7 @@ urlpatterns = [
     path('update-resolved-call-<int:call_id>/', views.customer_update_resolved_call, name="customer_update_resolved_call"),
 
     path('calls-under-six/', views.calls_under_six, name="calls_under_six"),
+
+    path('calls-free/', views.calls_free, name="calls_free"),
+    path('assign-call-<int:call_id>/', views.update_teammember, name="update_teammember"),
 ]
